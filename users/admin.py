@@ -4,10 +4,21 @@ from .models import UserModel, CategoryModel
 
 
 class UserModelAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'email', 'gender', 'birth_date', 'category')
-    list_filter = ('category', 'gender', 'birth_date')
-    search_fields = ('first_name', 'last_name', 'email')
+    list_display = (
+        "first_name",
+        "last_name",
+        "email",
+        "gender",
+        "birth_date",
+        "category",
+    )
+    list_filter = ("category", "gender", "birth_date")
+    search_fields = ("first_name", "last_name", "email")
+
+
+class CategoryModelAdmin(admin.ModelAdmin):
+    search_fields = ("name",)
 
 
 admin.site.register(UserModel, UserModelAdmin)
-admin.site.register(CategoryModel)
+admin.site.register(CategoryModel, CategoryModelAdmin)

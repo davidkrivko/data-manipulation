@@ -13,7 +13,7 @@ class UserModelFilter(django_filters.FilterSet):
     age_range = django_filters.CharFilter(
         field_name="age_range",
         method="filter_by_age_range",
-        label="Age Range (e.g., 25-30 years)"
+        label="Age Range (e.g., 25-30 years)",
     )
 
     class Meta:
@@ -38,14 +38,12 @@ class UserModelFilter(django_filters.FilterSet):
             start_age, end_age = map(int, value.split("-"))
         except ValueError:
             return queryset
-    
+
         today = datetime.today()
 
         start_age = float(start_age)
         end_age = float(end_age)
         max_value = today - timedelta(days=int(start_age * 365.25))
         min_value = today - timedelta(days=int((end_age + 1) * 365.25))
-    
-        return queryset.filter(
-            birth_date__gte=min_value, birth_date__lte=max_value
-        )
+
+        return queryset.filter(birth_date__gte=min_value, birth_date__lte=max_value)
