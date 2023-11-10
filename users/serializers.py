@@ -21,3 +21,7 @@ class UserModelDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
         fields = "__all__"
+
+
+class EmailSerializer(serializers.Serializer):
+    email = serializers.CharField()
