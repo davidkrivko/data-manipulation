@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-l0rqjp*c@@2-o32-ogjd(1#tzc*co)reb*@!mxh7^lu_t2-q8a"
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     # 3-rd party
     "rest_framework",
     "django_filters",
+    "django_celery_results",
     # local
     "users",
 ]
@@ -141,3 +142,24 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.AllowAny",
     ],
 }
+
+
+# REDIS
+REDIS_LOCATION_STRING = os.environ.get("REDIS_URL")
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": REDIS_LOCATION_STRING + "/0",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    },
+}
+CACHE_TTL = 60 * 5
+
+
+# CELERY
+CELERY_RESULT_BACKEND = "django-db"
+CELERY_BROKER_URL = REDIS_LOCATION_STRING + "/1"
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
