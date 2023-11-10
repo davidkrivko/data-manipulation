@@ -18,6 +18,10 @@ def create_user_instance(row):
 
 
 def import_data_from_csv(file_path: str):
+    """
+    Upload data from file to DataBase
+    """
+
     # Upload data to DataFrame
     df = pd.read_csv(file_path)
 
